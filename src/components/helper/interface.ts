@@ -13,6 +13,7 @@ export interface DataRegistration {
 
 export interface DataEdit {
     id: number
+    tag_id: number
     surname: string
     department_id: number
     date_of_born: any

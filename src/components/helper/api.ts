@@ -6,6 +6,7 @@ const tg = useTelegram()
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 axios.defaults.headers.common['x-api-key'] = 'SimpleForHackingKey'
+axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'any'
 
 export async function onSend(data: DataForm){
     tg.sendData(JSON.stringify(data));

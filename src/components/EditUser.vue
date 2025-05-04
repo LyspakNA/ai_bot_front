@@ -111,6 +111,7 @@ onMounted(async () => {
     // Обработка массива пользователей
     users.value = tempUsers.map((user: any) => ({
       id: user.id, // Используем id как уникальный идентификатор
+      tag_id: user.tag_id, // id тега
       surname: user.surname, // Отображаемое имя
       department_id: user.department_id, // Дополнительное поле
       date_of_born: user.date_of_born // Дата рождения
@@ -126,6 +127,7 @@ const tg = useTelegram();
 const entity = ref<DataForm>({
   editUser: {
     id: 0,
+    tag_id: 0,
     surname: '',
     department_id: 0,
     date_of_born: '',
@@ -150,7 +152,8 @@ async function setUserField<T extends keyof DataEdit>(field: T, value: DataEdit[
       entity.value.editUser.id = selectedUser.id; // Установить id
       entity.value.editUser.surname = selectedUser.surname; // Установить фамилию
       entity.value.editUser.department_id = selectedUser.department_id; // Установить департамент
-      entity.value.editUser.date_of_born = new Date(selectedUser.date_of_born); // Установить дату рождени
+      entity.value.editUser.date_of_born = new Date(selectedUser.date_of_born); // Установить дату рождения
+      entity.value.editUser.tag_id = selectedUser.tag_id; // Установить tag_id
       console.log('Updated user data:', entity.value.editUser); // Отладка
       
     }
@@ -173,26 +176,78 @@ const isValid = computed(() => {
 </script>
 
 <style lang="scss" scoped>
- .wrapper{
+.wrapper {
   display: flex;
   height: 100%;
   flex-direction: column;
-
   align-items: flex-start;
   justify-content: space-between;
- }
- .container{
+  overflow-y: auto; /* Добавляем прокрутку для длинных форм */
+  padding: 10px;
+}
+
+.container {
   margin: 0;
   width: 100%;
   max-width: none;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 5px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
- }
-  p{
-    font-size: 2.5vh;
-    margin-bottom: 0px;
+}
+
+p {
+  font-size: 2.2vh;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+/* Адаптивная вёрстка */
+@media (max-width: 768px) {
+  .wrapper {
+    align-items: start;
+    padding: 5px;
   }
+
+  .container {
+    padding: 0 5px;
+  }
+
+  p {
+    font-size: 2.5vh; /* Увеличиваем текст для лучшей читаемости */
+    text-align: start;
+  }
+
+  v-row {
+    flex-direction: column;
+    align-items:start;
+    margin-bottom: 5px; /* Добавляем отступы между строками */
+  }
+
+  v-col {
+    width: 100%;
+  }
+
+  v-btn {
+    font-size: 1.8vh; /* Увеличиваем текст кнопок */
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 5px;
+  }
+
+  p {
+    font-size: 2.8vh; /* Ещё больше увеличиваем текст */
+  }
+
+  v-btn {
+    font-size: 2vh; /* Увеличиваем текст кнопок для мобильных устройств */
+  }
+
+  .container {
+    padding: 0 5px;
+  }
+}
 </style>

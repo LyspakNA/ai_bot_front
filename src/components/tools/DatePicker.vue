@@ -48,13 +48,13 @@
   
   function updateDate(selectedDate: Date) {
     datePickerMenu.value = false
-    date.value = selectedDate
+    date.value = selectedDate.toISOString()
     emit('input', selectedDate)
   }
   
   watch(date, (newDate) => {
     if (newDate) {
-      emit('input', newDate)
+      emit('input', new Date(newDate))
     }
   })
   </script>
